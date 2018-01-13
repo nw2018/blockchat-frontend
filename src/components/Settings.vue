@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'settings',
   data() {
     return {
       msg: 'This is ' + this.$route.name

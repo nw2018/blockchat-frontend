@@ -12,7 +12,7 @@ export default {
   name: 'chat',
   data() {
     return {
-      msg: 'This is a test message'
+      msg: 'This is ' + this.$route.name
     }
   }
 }
