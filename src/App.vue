@@ -46,10 +46,10 @@ body {
 .mint-header {
   background-color: #2c3e50;
   font-size: 1.3em;
-  height: 54px;
+  height: 40px;
 }
 .mint-header-title {
-  font-size: 1.3em;
+  font-size: 1.1em;
 }
 </style>
 

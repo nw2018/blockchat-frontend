@@ -1,7 +1,8 @@
 <template>
   <div>
-    <mt-cell v-for="index in 5" :key="index" title="Chat Name" is-link>
-      <span>time, detail</span>
+    <div v-if="chatList.length===0">You don't have any chat now</div>
+    <mt-cell v-for="(item, index) in chatList" :key="index" title="Chat Name" is-link @click.native="redirectTo(index)">
+      <span>time, {{item}}</span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
   </div>
@@ -12,7 +13,15 @@ export default {
   name: 'chat',
   data() {
     return {
-      msg: 'This is ' + this.$route.name
+      msg: 'This is ' + this.$route.name,
+      chatList: [1, 2, 3, 4, 5
+      ]
+    }
+  },
+  methods: {
+    redirectTo: function (index) {
+      console.log(index)
+      this.$router.push('/conversation:' + index)
     }
   }
 }
@@ -20,7 +29,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.mint-cell {  
+.mint-cell {
   min-height: 4em;
 }
 </style>
