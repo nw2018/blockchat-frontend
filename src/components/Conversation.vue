@@ -7,19 +7,23 @@
           {{msg.text}}
         </div>
         <div v-else>
-          <img style="max-width:200px;background:#2c3e50;border-right-color:#2c3e50;" class="speech-bubble message" :src="msg.image">
+          <img style="max-width:180px;background:#2c3e50;border-right-color:#2c3e50;" class="speech-bubble message" :src="msg.image">
         </div>
         <div style="font-size:0.8em;color:#333;">{{msg.time|toTime}}</div>
       </div>
     </div>
     <div class="input-bar">
       <div>
-        <input @keyup.enter="sendMessage" id="input-text" v-model="messageContent" type="text">
-        <mt-button @click="sendMessage" style="height:2em;margin-left:1em;" size="small" type="default">send</mt-button>
-        <label for="file-upload" class="custom-file-upload">
-          Photos
-        </label>
-        <input id="file-upload" @change="onFileChange" accept="image/*" type="file">
+        <div>
+          <input @keyup.enter="sendMessage" id="input-text" v-model="messageContent" type="text">
+        </div>
+        <div style="display:flex;justify-content:space-around;margin-top:5px;">
+          <mt-button @click="sendMessage" style="height:2em;margin-left:1em;" size="small" type="default">send</mt-button>
+          <label for="file-upload" class="custom-file-upload">
+            Photos
+          </label>
+          <input id="file-upload" @change="onFileChange" accept="image/*" type="file">
+        </div>
       </div>
     </div>
   </div>
@@ -145,6 +149,9 @@ export default {
     emotion: function (msg) {
       console.log('[emotion]', msg)
       this.addEmotion(msg)
+    },
+    description: function (msg) {
+      console.log('[desc]', msg)
     }
   }
 }
@@ -158,7 +165,7 @@ input[type="file"] {
 .custom-file-upload {
   border: 1px solid #ccc;
   display: inline-block;
-  padding: 5px 9px;
+  padding: 4px 7px;
   cursor: pointer;
   border-radius: 5px;
   color: rgb(95, 94, 94);
@@ -191,7 +198,7 @@ input[type="file"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 10%;
+  height: 15%;
   border-top: 1px solid #aeaeae;
 }
 #input-text {
