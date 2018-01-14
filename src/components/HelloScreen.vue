@@ -101,6 +101,8 @@ export default {
   margin-top: 2em;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: #cac5c5;
+  border:1px solid #cac5c5;
 }
 @keyframes dash {
   to {
