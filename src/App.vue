@@ -39,7 +39,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setLocation'
+      'setLocation',
+      'setUserName'
     ]),
     redirectTo: function (path) {
       this.$router.push(path)
@@ -55,6 +56,7 @@ export default {
         this.setLocation(pos)
       })
     }
+    this.setUserName(Math.random().toString(36).substring(7))
   }
 }
 </script>

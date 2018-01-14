@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 const state = {
   geoLocation: null,
-  messages: {}
+  messages: {},
+  userName: null
 }
 
 const mutations = {
@@ -18,15 +19,18 @@ const mutations = {
     } else {
       state.messages[msg.id] = [msg.message]
     }
+  },
+  setUserName(state, name) {
+    state.userName = name
   }
 }
 
 const getters = {
   geoLocation: state => state.geoLocation,
   getMessage: (state) => (id) => {
-    console.log('state-' + id)
     return state.messages[id]
-  }
+  },
+  userName: (state) => state.userName
 }
 
 export default new Vuex.Store({
