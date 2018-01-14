@@ -27,7 +27,6 @@ export default {
     return {
       msg: 'This is ' + this.$route.name,
       messageContent: null,
-      userName: null,
       historyMessage: []
     }
   },
@@ -40,13 +39,15 @@ export default {
   computed: {
     ...mapGetters([
       'getMessage',
-      'geoLocation'
+      'geoLocation',
+      'userName'
     ])
   },
   mounted: function () {
     this.getMessage(this.id.slice(1))
     this.$socket.emit('find_room', {
-      location: this.geoLocation
+      location: this.geoLocation,
+      name: this.userName
     })
     this.historyMessage = this.getMessage(this.id.slice(1))
   },

@@ -25,6 +25,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import { Indicator } from 'mint-ui'
 export default {
   name: 'app',
   data() {
@@ -39,13 +40,18 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setLocation'
+      'setLocation',
+      'setUserName'
     ]),
     redirectTo: function (path) {
       this.$router.push(path)
     }
   },
   mounted: function () {
+    Indicator.open({
+      text: 'Loading...',
+      spinnerType: 'fading-circle'
+    })
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const pos = {
@@ -53,8 +59,10 @@ export default {
           lng: position.coords.longitude
         }
         this.setLocation(pos)
+        Indicator.close()
       })
     }
+    this.setUserName(Math.random().toString(36).substring(7))
   }
 }
 </script>
