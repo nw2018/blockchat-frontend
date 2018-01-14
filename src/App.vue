@@ -36,7 +36,8 @@ export default {
   computed: {
     ...mapGetters([
       'roomList',
-      'geoLocation'
+      'geoLocation',
+      'userName'
     ]),
     loading: function () {
       return this.roomList.length === 0 || this.geoLocation === null
@@ -49,7 +50,8 @@ export default {
     ...mapMutations([
       'setLocation',
       'setUserName',
-      'setRoom'
+      'setRoom',
+      'addUser'
     ]),
     redirectTo: function (path) {
       this.$router.push(path)
@@ -60,6 +62,7 @@ export default {
       text: 'Loading...',
       spinnerType: 'fading-circle'
     })
+    this.setUserName(Math.random().toString(36).substring(7))
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const pos = {
@@ -67,18 +70,24 @@ export default {
           lng: position.coords.longitude
         }
         this.setLocation(pos)
-        this.$socket.emit('get_info', {
-          location: pos
+        this.$socket.emit('find_room', {
+          location: pos,
+          name: this.userName
         })
         Indicator.close()
       })
     }
-    this.setUserName(Math.random().toString(36).substring(7))
   },
   sockets: {
     room_info: function (msg) {
       console.log(msg)
-      this.setRoom(msg.nearbyRooms)
+      this.setRoom(msg)
+    },
+    sys: function (msg) {
+      if (msg.action === 'login') {
+        this.addUser(msg)
+      }
+      console.log('home sys', msg)
     }
   }
 }

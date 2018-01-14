@@ -7,7 +7,8 @@ const state = {
   geoLocation: null,
   messages: {},
   userName: null,
-  roomList: []
+  roomList: [],
+  userList: []
 }
 
 const mutations = {
@@ -26,6 +27,9 @@ const mutations = {
   },
   setRoom(state, room) {
     state.roomList = room
+  },
+  addUser(state, user) {
+    state.userList.push(user)
   }
 }
 
@@ -35,7 +39,8 @@ const getters = {
     return state.messages[id]
   },
   userName: (state) => state.userName,
-  roomList: state => state.roomList
+  roomList: state => state.roomList,
+  userList: state => state.userList
 }
 
 export default new Vuex.Store({
