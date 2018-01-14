@@ -3,7 +3,7 @@
     <div class="message-content" id="slider">
       <div v-for="(msg,index) in historyMessage" class="message-container" :key="index">
         <div>{{msg.name}}</div>
-        <div class="speech-bubble message">
+        <div :style="{background: colorGen(msg.score),borderRightColor: colorGen(msg.score)}" class="speech-bubble message">
           {{msg.text}}
         </div>
         <div style="font-size:0.8em;color:#333;">{{msg.time|toTime}}</div>
@@ -50,7 +50,7 @@ export default {
       this.historyMessage = this.historyMessage.map(item => {
         self.emotion.forEach(e => {
           if (e.hash === item.hash) {
-            item.score = e.emotion.score
+            self.$set(item, 'score', e.emotion.score)
             return item
           }
         })
@@ -89,6 +89,15 @@ export default {
         const inputBar = document.getElementById('input-text')
         inputBar.focus()
       }
+    },
+    colorGen: function (score) {
+      if (!score) return '#2c3e50'
+      const r = parseInt(200 * (1 - score))
+      const g = parseInt(200 * score)
+      const b = 40
+      const rgb = 'rgb(' + r + ',' + g + ',' + b + ')'
+      console.log(rgb)
+      return rgb
     }
   },
   sockets: {
@@ -136,8 +145,9 @@ export default {
 .message {
   margin: 0.5em 0.5em 0.5em 1em;
   padding: 0.5em;
-  background-color: #2c3e50;
+  /* background-color: #2c3e50; */
   color: #ecf0f1;
+  transition: 2s all;
 }
 .input-bar {
   display: flex;
@@ -155,7 +165,7 @@ export default {
 }
 .speech-bubble {
   position: relative;
-  background: #2c3e50;
+  /* background: #2c3e50; */
   border-radius: 0.4em;
 }
 
@@ -167,7 +177,7 @@ export default {
   width: 0;
   height: 0;
   border: 0.438em solid transparent;
-  border-right-color: #2c3e50;
+  border-right-color: inherit;
   border-left: 0;
   border-top: 0;
   margin-top: -0.219em;
