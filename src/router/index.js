@@ -6,6 +6,7 @@ import Test from '@/components/Test'
 import gLocation from '@/components/Location'
 import Settings from '@/components/Settings'
 import Conversation from '@/components/Conversation'
+import HelloScreen from '@/components/HelloScreen'
 
 Vue.use(Router)
 
@@ -13,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/chat'
+      redirect: '/hello'
     },
     {
       path: '/chat',
@@ -37,6 +38,10 @@ export default new Router({
       name: 'conversation',
       component: Conversation,
       props: true
+    }, {
+      path: '/hello',
+      name: 'helloscreen',
+      component: HelloScreen
     }
   ]
 })

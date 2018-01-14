@@ -1,0 +1,18 @@
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadein {
+  to {
+    fill-opacity: 1
+  }
+}
+
+path {
+  stroke-dasharray: 3500;
+  stroke-dashoffset: 3500;
+  animation: dash 3s ease-in-out forwards,fadein 1s ease-in forwards;
+  animation-delay: 0s,2.3s;
+}

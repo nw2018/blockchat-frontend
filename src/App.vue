@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <mt-header title="BlockChat">
-      <router-link to="/" slot="left">
+      <router-link to="/chat" slot="left">
         <mt-button v-show="inConversation" icon="back" @click.native="redirectTo('/chat')"></mt-button>
       </router-link>
     </mt-header>

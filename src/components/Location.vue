@@ -16,25 +16,7 @@ export default {
       msg: 'This is ' + this.$route.name,
       mapInstance: null,
       mapMarker: null,
-      rvMaps: null,
-      citymap: {
-        chicago: {
-          center: { lat: 41.878, lng: -87.629 },
-          population: 2714856
-        },
-        newyork: {
-          center: { lat: 40.714, lng: -74.005 },
-          population: 8405837
-        },
-        losangeles: {
-          center: { lat: 34.052, lng: -118.243 },
-          population: 3857799
-        },
-        vancouver: {
-          center: { lat: 49.25, lng: -123.1 },
-          population: 603502
-        }
-      }
+      rvMaps: null
     }
   },
   computed: {
@@ -46,20 +28,7 @@ export default {
   watch: {
     roomList: function () {
       if (!this.mapInstance) return
-      // Add the circle for this city to the map.
-      let self = this
-      this.roomList.map(item => {
-        return new self.rvMaps.Circle({
-          strokeColor: '#FF0000',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: '#FF0000',
-          fillOpacity: 0.35,
-          map: self.mapInstance,
-          center: item.location,
-          radius: Math.sqrt(10) * 30
-        })
-      })
+      this.renderCircle()
     }
   },
   methods: {
@@ -75,6 +44,21 @@ export default {
         strokeColor: 'white',
         strokeWeight: 0.5
       }
+    },
+    renderCircle: function () {
+      let self = this
+      this.roomList.map(item => {
+        return new self.rvMaps.Circle({
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#FF0000',
+          fillOpacity: 0.35,
+          map: self.mapInstance,
+          center: item.location,
+          radius: Math.sqrt(10) * 30
+        })
+      })
     }
   },
   mounted: function () {
@@ -301,6 +285,7 @@ export default {
             })
           })
         }
+        self.renderCircle()
       })
     })
   }
