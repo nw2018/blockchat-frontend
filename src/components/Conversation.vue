@@ -40,8 +40,23 @@ export default {
     ...mapGetters([
       'getMessage',
       'geoLocation',
-      'userName'
+      'userName',
+      'emotion'
     ])
+  },
+  watch: {
+    emotion: function () {
+      let self = this
+      this.historyMessage = this.historyMessage.map(item => {
+        self.emotion.forEach(e => {
+          if (e.hash === item.hash) {
+            item.score = e.emotion.score
+            return item
+          }
+        })
+        return item
+      })
+    }
   },
   mounted: function () {
     this.getMessage(this.id.slice(1))
@@ -53,15 +68,23 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'addMessage'
+      'addMessage',
+      'addEmotion'
     ]),
+    hash: function (s) {
+      return s.split('').reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0)
+    },
     sendMessage: function () {
+      const dateString = new Date().toString()
+      const hashText = this.hash(dateString + this.messageContent)
       if (this.messageContent == null || this.messageContent.length > 0) {
         this.$socket.emit('send_msg', {
           text: this.messageContent,
           name: this.userName,
           time: new Date().toString(),
-          id: this.id.slice(1)
+          id: this.id.slice(1),
+          hash: hashText,
+          needEmotion: true
         })
         const inputBar = document.getElementById('input-text')
         inputBar.focus()
@@ -82,6 +105,10 @@ export default {
         const slider = document.getElementById('slider')
         slider.scrollTop = slider.scrollHeight
       })
+    },
+    emotion: function (msg) {
+      console.log('[emotion]', msg)
+      this.addEmotion(msg)
     }
   }
 }

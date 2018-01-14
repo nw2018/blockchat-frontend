@@ -6,6 +6,7 @@ Vue.use(Vuex)
 const state = {
   geoLocation: null,
   messages: {},
+  emotionHistory: [],
   userName: null,
   roomList: [],
   userList: []
@@ -30,6 +31,9 @@ const mutations = {
   },
   addUser(state, user) {
     state.userList.push(user)
+  },
+  addEmotion(state, emotion) {
+    state.emotionHistory.push(emotion)
   }
 }
 
@@ -40,7 +44,8 @@ const getters = {
   },
   userName: (state) => state.userName,
   roomList: state => state.roomList,
-  userList: state => state.userList
+  userList: state => state.userList,
+  emotion: state => state.emotionHistory
 }
 
 export default new Vuex.Store({
