@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
 const apiKey = 'AIzaSyDqdHSer3K4o_QAT1nKuo3ScTrJiaU3SSE'
 const googleMap = require('google-maps-api')(apiKey)
 const maps = require('google-maps-api/map')
@@ -16,6 +17,16 @@ export default {
       mapInstance: null,
       mapMarker: null
     }
+  },
+  computed: {
+    ...mapGetters([
+      'geoLocation'
+    ])
+  },
+  methods: {
+    ...mapMutations([
+      'setLocation'
+    ])
   },
   mounted: function () {
     let self = this
@@ -231,6 +242,7 @@ export default {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             }
+            this.setLocation(pos)
             console.log(pos)
             self.mapInstance.setCenter(pos)
             self.mapMarker = new rvMaps.Marker({

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'app',
   data() {
@@ -28,8 +29,22 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setLocation'
+    ]),
     redirectTo: function (path) {
       this.$router.push(path)
+    }
+  },
+  mounted: function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+        this.setLocation(pos)
+      })
     }
   }
 }

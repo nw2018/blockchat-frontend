@@ -1,12 +1,12 @@
 <template>
   <div style="display:flex;flex-direction:column;height:100%;">
     <div class="message-content">
-      <div v-for="(msg,index) in historyMssage" class="message-container" :key="index">
+      <div v-for="(msg,index) in historyMessage" class="message-container" :key="index">
         <div>{{msg.name}}</div>
         <div class="speech-bubble message">
-          {{msg.message}}
+          {{msg.text}}
         </div>
-        <div style="font-size:0.8em;color:#333;">{{msg.time}}</div>
+        <div style="font-size:0.8em;color:#333;">{{msg.time|toTime}}</div>
       </div>
     </div>
     <div class="input-bar">
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'hello',
   props: ['id'],
@@ -26,46 +27,51 @@ export default {
     return {
       msg: 'This is ' + this.$route.name,
       messageContent: null,
-      historyMssage: [
-        {
-          name: 'Alex',
-          message: 'Hello Bob',
-          time: '21:42'
-        }, {
-          name: 'Box',
-          message: 'Hello Jason',
-          time: '21:42'
-        }, {
-          name: 'Jason',
-          message: 'Hello Patrick',
-          time: '21:42'
-        }, {
-          name: 'Patrick',
-          message: 'Hello Alex',
-          time: '21:42'
-        }
-      ]
+      userName: null,
+      historyMessage: []
     }
   },
+  filters: {
+    toTime: function (dateString) {
+      const date = new Date(dateString)
+      return date.getHours() + ':' + date.getMinutes()
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'getMessage',
+      'geoLocation'
+    ])
+  },
+  mounted: function () {
+    this.getMessage(this.id.slice(1))
+    this.$socket.emit('find_room', {
+      location: this.geoLocation
+    })
+    this.historyMessage = this.getMessage(this.id.slice(1))
+  },
   methods: {
+    ...mapMutations([
+      'addMessage'
+    ]),
     sendMessage: function () {
       this.$socket.emit('send_msg', {
-        text: this.messageContent
+        text: this.messageContent,
+        name: this.userName,
+        time: new Date().toString()
       })
     }
   },
   sockets: {
     sys: (msg) => {
-      console.log('[sys] ' + msg)
+      console.log('[sys] ', msg)
+      this.userName = msg.name
     },
     normal: function (msg) {
-      this.historyMssage.push({
-        name: 'Patrick',
-        message: msg,
-        time: '21:23'
-      })
+      console.log('[normal] ', msg)
+      this.addMessage({ id: this.id.slice(1), message: msg })
       this.messageContent = ''
-      console.log('[normal] ' + msg)
+      this.historyMessage = this.getMessage(this.id.slice(1))
     }
   }
 }
