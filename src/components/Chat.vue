@@ -7,8 +7,8 @@
       </span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
-    <mt-cell v-for="(item, index) in roomList.nearbyRooms" :key="index" title="Not avaliable room" is-link>
-      <div style="margin-right:50px">{{Math.floor(distance[index])}}</div>
+
+    <mt-cell :label="'Distance:' + Math.floor(distance[index]) + 'm'" v-for="(item, index) in roomList.nearbyRooms" :key="index" title="Not avaliable room" is-link @click.native="redirectTo(index)">
       <span>
         <mt-badge size="small">{{index}}</mt-badge>
       </span>
