@@ -1,7 +1,14 @@
 <template>
   <div>
     <div v-if="roomList.length===0">You don't have any chat now</div>
-    <mt-cell v-for="(item, index) in roomList" :key="index" title="room" is-link @click.native="redirectTo(index)">
+    <mt-cell title="avaliable room" is-link>
+      <div style="margin-right:50px">{{Math.floor(distance[index])}}</div>
+      <span>
+        <mt-badge size="small">1</mt-badge>
+      </span>
+      <img slot="icon" src="../assets/logo.png" width="48" height="48">
+    </mt-cell>
+    <mt-cell v-for="(item, index) in roomList.nearbyRooms" :key="index" title="Not avaliable room" is-link @click.native="redirectTo(index)">
       <div style="margin-right:50px">{{Math.floor(distance[index])}}</div>
       <span>
         <mt-badge size="small">{{index}}</mt-badge>
