@@ -7,7 +7,7 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 const apiKey = 'AIzaSyDqdHSer3K4o_QAT1nKuo3ScTrJiaU3SSE'
-const googleMap = require('google-maps-api')(apiKey)
+const googleMap = require('google-maps-api')(apiKey, ['geometry'])
 const maps = require('google-maps-api/map')
 export default {
   name: 'location',
@@ -64,7 +64,6 @@ export default {
   mounted: function () {
     let self = this
     googleMap().then(rvMaps => {
-      console.log(rvMaps)
       self.rvMaps = rvMaps
       maps({
         element: document.getElementById('map'),
