@@ -60,7 +60,8 @@ export default {
         this.$socket.emit('send_msg', {
           text: this.messageContent,
           name: this.userName,
-          time: new Date().toString()
+          time: new Date().toString(),
+          id: this.id.slice(1)
         })
         const inputBar = document.getElementById('input-text')
         inputBar.focus()
@@ -74,7 +75,7 @@ export default {
     },
     normal: function (msg) {
       console.log('[normal] ', msg)
-      this.addMessage({ id: this.id.slice(1), message: msg })
+      this.addMessage(msg)
       this.messageContent = ''
       this.historyMessage = this.getMessage(this.id.slice(1))
       this.$nextTick(() => {

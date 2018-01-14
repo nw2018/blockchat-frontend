@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import { Indicator } from 'mint-ui'
 export default {
   name: 'app',
@@ -34,6 +34,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'roomList',
+      'geoLocation'
+    ]),
+    loading: function () {
+      return this.roomList.length === 0 || this.geoLocation === null
+    },
     inConversation: function () {
       return this.$route.name === 'conversation'
     }
@@ -41,7 +48,8 @@ export default {
   methods: {
     ...mapMutations([
       'setLocation',
-      'setUserName'
+      'setUserName',
+      'setRoom'
     ]),
     redirectTo: function (path) {
       this.$router.push(path)
@@ -59,10 +67,19 @@ export default {
           lng: position.coords.longitude
         }
         this.setLocation(pos)
+        this.$socket.emit('get_info', {
+          location: pos
+        })
         Indicator.close()
       })
     }
     this.setUserName(Math.random().toString(36).substring(7))
+  },
+  sockets: {
+    room_info: function (msg) {
+      console.log(msg)
+      this.setRoom(msg.nearbyRooms)
+    }
   }
 }
 </script>

@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const state = {
   geoLocation: null,
   messages: {},
-  userName: null
+  userName: null,
+  roomList: []
 }
 
 const mutations = {
@@ -15,13 +16,16 @@ const mutations = {
   },
   addMessage(state, msg) {
     if (state.messages[msg.id]) {
-      state.messages[msg.id].push(msg.message)
+      state.messages[msg.id].push(msg)
     } else {
-      state.messages[msg.id] = [msg.message]
+      state.messages[msg.id] = [msg]
     }
   },
   setUserName(state, name) {
     state.userName = name
+  },
+  setRoom(state, room) {
+    state.roomList = room
   }
 }
 
@@ -30,7 +34,8 @@ const getters = {
   getMessage: (state) => (id) => {
     return state.messages[id]
   },
-  userName: (state) => state.userName
+  userName: (state) => state.userName,
+  roomList: state => state.roomList
 }
 
 export default new Vuex.Store({
