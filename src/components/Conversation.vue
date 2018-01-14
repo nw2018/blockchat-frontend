@@ -1,6 +1,9 @@
 <template>
   <div>
     {{msg}}-{{id}}
+    <div>
+      <input type="text">
+    </div>
   </div>
 </template>
 
@@ -10,7 +13,8 @@ export default {
   props: ['id'],
   data() {
     return {
-      msg: 'This is ' + this.$route.name
+      msg: 'This is ' + this.$route.name,
+      messageContent: null
     }
   }
 }

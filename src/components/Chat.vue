@@ -2,7 +2,9 @@
   <div>
     <div v-if="chatList.length===0">You don't have any chat now</div>
     <mt-cell v-for="(item, index) in chatList" :key="index" title="Chat Name" is-link @click.native="redirectTo(index)">
-      <span>time, {{item}}</span>
+      <span>  
+        <mt-badge size="small">{{item}}</mt-badge>
+      </span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
   </div>

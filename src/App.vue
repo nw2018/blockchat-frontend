@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <mt-header title="BlockChat"></mt-header>
-    <transition name="fade" mode="fade">
+    <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
     <mt-tabbar v-model="selected">
