@@ -63,6 +63,8 @@ export default {
           time: new Date().toString(),
           id: this.id.slice(1)
         })
+        const inputBar = document.getElementById('input-text')
+        inputBar.focus()
       }
     }
   },
