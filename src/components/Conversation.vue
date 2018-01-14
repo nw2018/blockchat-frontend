@@ -1,11 +1,18 @@
 <template>
   <div style="display:flex;flex-direction:column;height:100%;">
     <div class="message-content">
+      <div v-for="(msg,index) in historyMissage" class="message-container" :key="index">
+        <div>{{msg.name}}</div>
+        <div class="speech-bubble message">
+          {{msg.message}}
+        </div>
+        <div style="font-size:0.8em;color:#333;">{{msg.time}}</div>
+      </div>
     </div>
     <div class="input-bar">
       <div>
-        <input id="input-text" type="text">
-        <mt-button style="height:2em;" size="small" type="default">send</mt-button>
+        <input id="input-text" v-model="messageContent" type="text">
+        <mt-button @click="sendMessage" style="height:2em;margin-left:1em;" size="small" type="default">send</mt-button>
       </div>
     </div>
   </div>
@@ -18,7 +25,41 @@ export default {
   data() {
     return {
       msg: 'This is ' + this.$route.name,
-      messageContent: null
+      messageContent: null,
+      historyMissage: [
+        {
+          name: 'Alex',
+          message: 'Hello Bob',
+          time: '21:42'
+        }, {
+          name: 'Box',
+          message: 'Hello Jason',
+          time: '21:42'
+        }, {
+          name: 'Jason',
+          message: 'Hello Patrick',
+          time: '21:42'
+        }, {
+          name: 'Patrick',
+          message: 'Hello Alex',
+          time: '21:42'
+        }
+      ]
+    }
+  },
+  methods: {
+    sendMessage: function () {
+      this.$socket.emit('send_msg', {
+        text: this.messageContent
+      })
+    }
+  },
+  sockets: {
+    sys: (msg) => {
+      console.log('[sys] ' + msg)
+    },
+    normal: (msg) => {
+      console.log('[normal] ' + msg)
     }
   }
 }
@@ -26,14 +67,27 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.message-container {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eeeeee;
+  padding-left: 1em;
+}
 .message-content {
   flex-grow: 5;
+}
+.message {
+  margin: 0.5em 0.5em 0.5em 1em;
+  padding: 0.5em;
+  background-color: #2c3e50;
+  color: #ecf0f1;
 }
 .input-bar {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 10%;
+  border-top: 1px solid #aeaeae;
 }
 #input-text {
   border: 2px solid #456879;
@@ -41,5 +95,25 @@ export default {
   height: 22px;
   width: 230px;
   padding-left: 1em;
+}
+.speech-bubble {
+  position: relative;
+  background: #2c3e50;
+  border-radius: 0.4em;
+}
+
+.speech-bubble:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 0.438em solid transparent;
+  border-right-color: #2c3e50;
+  border-left: 0;
+  border-top: 0;
+  margin-top: -0.219em;
+  margin-left: -0.437em;
 }
 </style>

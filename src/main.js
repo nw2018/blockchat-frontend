@@ -6,9 +6,10 @@ import router from './router'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import store from './store/index.js'
+import VueSocketio from 'vue-socket.io'
 
 Vue.config.productionTip = false
-
+Vue.use(VueSocketio, 'http://18.220.255.229:3000')
 Vue.use(MintUI)
 /* eslint-disable no-new */
 new Vue({
