@@ -210,7 +210,7 @@ input[type="file"] {
 }
 .speech-bubble {
   word-wrap: break-word;
-  max-width: 70%;
+  max-width: 40%;
   position: relative;
   /* background: #2c3e50; */
   border-radius: 0.4em;
