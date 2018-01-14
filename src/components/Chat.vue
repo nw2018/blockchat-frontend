@@ -37,7 +37,7 @@ export default {
       const myLocation = this.geoLocation
       for (var index = 0; index < rooms.length; index++) {
         var obj = rooms[index]
-        this.distance[index] = Math.sqrt(Math.pow(100000 * (myLocation.lat - obj.location.lat, 2) + Math.pow(myLocation.lat - obj.location.lng, 2)))
+        this.distance[index] = Math.sqrt(Math.pow(100000 * (myLocation.lat - obj.location.lat, 2) + Math.pow(100000 * myLocation.lat - obj.location.lng, 2)))
       }
     }
   },
