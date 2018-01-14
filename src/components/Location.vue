@@ -53,12 +53,17 @@ export default {
       this.renderCircle(this.roomList.ownRoom, '#FF0000')
     },
     renderCircle: function (item, color) {
+      var opacity = 0.2
+      if (item.user) {
+        opacity = Math.max(item.user.length / 10, 0.2)
+        opacity = Math.min(opacity, 0.8)
+      }
       return new this.rvMaps.Circle({
         strokeColor: color,
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillColor: color,
-        fillOpacity: 0.35,
+        fillOpacity: opacity,
         map: this.mapInstance,
         center: item.location,
         radius: Math.sqrt(10) * 30
