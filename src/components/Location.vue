@@ -28,7 +28,7 @@ export default {
   watch: {
     roomList: function () {
       if (!this.mapInstance) return
-      this.renderCircle()
+      this.renderMap()
     }
   },
   methods: {
@@ -45,19 +45,23 @@ export default {
         strokeWeight: 0.5
       }
     },
-    renderCircle: function () {
-      let self = this
-      this.roomList.map(item => {
-        return new self.rvMaps.Circle({
-          strokeColor: '#FF0000',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: '#FF0000',
-          fillOpacity: 0.35,
-          map: self.mapInstance,
-          center: item.location,
-          radius: Math.sqrt(10) * 30
-        })
+    renderMap: function () {
+      this.roomList.nearbyRooms.map(item => {
+        console.log(item)
+        this.renderCircle(item, '#2980b9')
+      })
+      this.renderCircle(this.roomList.ownRoom, '#FF0000')
+    },
+    renderCircle: function (item, color) {
+      return new this.rvMaps.Circle({
+        strokeColor: color,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: color,
+        fillOpacity: 0.35,
+        map: this.mapInstance,
+        center: item.location,
+        radius: Math.sqrt(10) * 30
       })
     }
   },
@@ -285,7 +289,7 @@ export default {
             })
           })
         }
-        self.renderCircle()
+        self.renderMap()
       })
     })
   }
