@@ -154,6 +154,8 @@ export default {
   padding-left: 1em;
 }
 .speech-bubble {
+  word-wrap: break-word;
+  max-width: 70%;
   position: relative;
   background: #2c3e50;
   border-radius: 0.4em;
