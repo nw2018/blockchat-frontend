@@ -2,7 +2,7 @@
   <div id="app">
     <mt-header title="BlockChat"></mt-header>
     <transition name="fade" mode="out-in">
-      <router-view></router-view>
+      <router-view style="flex-grow:2;"></router-view>
     </transition>
     <mt-tabbar v-model="selected">
       <mt-tab-item @click.native="redirectTo('/chat')" id="chat">
@@ -15,6 +15,7 @@
         <img slot="icon" src="./assets/settings.png"> Settings
       </mt-tab-item>
     </mt-tabbar>
+    <div style="height:55px;"></div>
   </div>
 </template>
 
@@ -37,6 +38,7 @@ export default {
 <style>
 body {
   margin: 0;
+  height: 100%;
 }
 
 #app {
@@ -44,6 +46,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .mint-header {
   background-color: #2c3e50;
@@ -53,13 +60,13 @@ body {
 .mint-header-title {
   font-size: 1.1em;
 }
-.fade-enter-active, .component-fade-leave-active {
-  transition: opacity .3s ease;
+.fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.3s ease;
 }
-.fade-enter, .component-fade-leave-to
-/* .component-fade-leave-active for <2.1.8 */ {
+.fade-enter,
+.component-fade-leave-to {
   opacity: 0;
 }
-
 </style>
 

@@ -231,6 +231,7 @@ export default {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             }
+            console.log(pos)
             self.mapInstance.setCenter(pos)
             self.mapMarker = new rvMaps.Marker({
               map: self.mapInstance,
