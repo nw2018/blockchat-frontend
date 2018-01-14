@@ -54,10 +54,13 @@ export default {
     },
     renderCircle: function (item, color) {
       var opacity = 0.2
-      if (item.user) {
-        opacity = Math.max(item.user.length / 10, 0.2)
+      console.log(item.users)
+      if (item.users) {
+        opacity = Math.max(item.users.length / 10, 0.2)
         opacity = Math.min(opacity, 0.8)
+        console.log(opacity)
       }
+      console.log('god')
       return new this.rvMaps.Circle({
         strokeColor: color,
         strokeOpacity: 0.8,
