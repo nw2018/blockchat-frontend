@@ -28,8 +28,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 .mint-cell {
-  min-height: 4em;
+  min-height: 4.8em;
+  border-bottom: 1px solid #e7e7e7;
 }
 </style>
