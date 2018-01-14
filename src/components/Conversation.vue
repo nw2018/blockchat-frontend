@@ -62,6 +62,8 @@ export default {
           name: this.userName,
           time: new Date().toString()
         })
+        const inputBar = document.getElementById('input-text')
+        inputBar.focus()
       }
     }
   },
