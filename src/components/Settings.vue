@@ -1,7 +1,8 @@
 <template>
   <div>
     <mt-cell style="min-height: 5em;" title="Your Profile" v-on:click.native="upLoadImage = !upLoadImage">
-      <span>upload</span>
+      <span v-if="!upLoadImage">upload</span>
+      <span v-if="upLoadImage">hide</span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
     <transition name="fade">
@@ -17,11 +18,11 @@
         <div class="team-information" style="margin-top:100px;">
           <div class="container" style="display:flex;justify-content:center;">
             <div style="display:blcok">
-              <div style="font-size:50px;">nwHacks</div>
-              <div>Patrick</div>
-              <div>Alex</div>
-              <div>Jason</div>
-              <div>Bob</div>
+              <div style="font-size:50px;">@nwHacks</div>
+              <div class="member" style="margin-top:5px;font-size:30px;display:flex;justify-content:center;">Patrick</div>
+              <div class="member" style="margin-top:5px;font-size:30px;display:flex;justify-content:center;">Alex</div>
+              <div class="member" style="margin-top:5px;font-size:30px;display:flex;justify-content:center;">Jason</div>
+              <div class="member" style="margin-top:5px;font-size:30px;display:flex;justify-content:center;">Bob</div>
             </div>
           </div>
         </div>
@@ -84,7 +85,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style "scoped">
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 10s;
+}
+.member {
+  font-size: 90px;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
 }
 </style>

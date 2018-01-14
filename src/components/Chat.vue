@@ -7,8 +7,7 @@
       </span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
-
-    <mt-cell style="background-color:rgb(239, 239, 239)" :label="'Distance:' + Math.floor(distance[index]) + 'm'" v-for="(item, index) in roomList.nearbyRooms" :key="index" title="Room out of reach" is-link @click.native="redirectTo('/location')">
+    <mt-cell style="background-color:rgb(239, 239, 239)" :label="'Distance:' + Math.floor(distance[index]) + 'm' + ' Users:' + userNum[index]" v-for="(item, index) in roomList.nearbyRooms" :key="index" title="Room out of reach" is-link @click.native="redirectTo('/location')">
       <span>
         <mt-badge size="small">{{index}}</mt-badge>
       </span>
@@ -24,7 +23,8 @@ export default {
   data() {
     return {
       msg: 'This is ' + this.$route.name,
-      distance: []
+      distance: [],
+      userNum: []
     }
   },
   computed: {
@@ -49,8 +49,10 @@ export default {
         return
       }
       this.distance = []
+      this.userNum = []
       for (var index = 0; index < rooms.length; index++) {
         this.distance.push(1000 * this.getDistanceFromLatLonInKm(myLocation, rooms[index].location))
+        this.userNum.push((rooms[index].users) ? rooms[index].users.length : 0)
       }
     },
     getDistanceFromLatLonInKm: function (loc1, loc2) {
