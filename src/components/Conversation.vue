@@ -1,7 +1,7 @@
 <template>
   <div style="display:flex;flex-direction:column;height:100%;">
     <div class="message-content">
-      <div v-for="(msg,index) in historyMissage" class="message-container" :key="index">
+      <div v-for="(msg,index) in historyMssage" class="message-container" :key="index">
         <div>{{msg.name}}</div>
         <div class="speech-bubble message">
           {{msg.message}}
@@ -26,7 +26,7 @@ export default {
     return {
       msg: 'This is ' + this.$route.name,
       messageContent: null,
-      historyMissage: [
+      historyMssage: [
         {
           name: 'Alex',
           message: 'Hello Bob',
@@ -58,7 +58,13 @@ export default {
     sys: (msg) => {
       console.log('[sys] ' + msg)
     },
-    normal: (msg) => {
+    normal: function (msg) {
+      this.historyMssage.push({
+        name: 'Patrick',
+        message: msg,
+        time: '21:23'
+      })
+      this.messageContent = ''
       console.log('[normal] ' + msg)
     }
   }
