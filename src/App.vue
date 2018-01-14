@@ -26,6 +26,7 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 import { Indicator } from 'mint-ui'
+import getName from './assets/randomName'
 export default {
   name: 'app',
   data() {
@@ -62,7 +63,7 @@ export default {
       text: 'Loading...',
       spinnerType: 'fading-circle'
     })
-    this.setUserName(Math.random().toString(36).substring(7))
+    this.setUserName(getName())
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const pos = {
