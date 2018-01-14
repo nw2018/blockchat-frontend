@@ -5,6 +5,7 @@ import Test from '@/components/Test'
 
 import gLocation from '@/components/Location'
 import Settings from '@/components/Settings'
+import Conversation from '@/components/Conversation'
 
 Vue.use(Router)
 
@@ -31,6 +32,11 @@ export default new Router({
       path: '/settings',
       name: 'settings',
       component: Settings
+    }, {
+      path: '/conversation:id',
+      name: 'conversation',
+      component: Conversation,
+      props: true
     }
   ]
 })
