@@ -1,9 +1,10 @@
 <template>
   <div>
-    <mt-cell style="min-height: 5em;" title="Your Profile" is-link>
-      <span>modify</span>
+    <mt-cell style="min-height: 5em;" title="Your Profile" v-on:click.native="upLoad">
+      <span>upload</span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
+    <input v-show="upLoadImage" label="" type="file" accept="image/*;capture=camera">
     <mt-cell title="Privacy" label="" v-on:click.native="toPrivacy" is-link></mt-cell>
     <mt-cell title="Histroy" label="Your chat histroy" is-link></mt-cell>
     <mt-cell title="Help & Feedback" to="https://github.com/nw2018/blockchat-frontend/issues" label="report issue in github" is-link></mt-cell>
@@ -35,15 +36,15 @@
         </div>
         <mt-cell title="Position" label="" style="margin-top:20px">
           <div v-if="positionAvailable">
-            Visible to Others    
+            Visible to Others
           </div>
           <div v-else>
-            Invisibe to Others  
+            Invisibe to Others
           </div>
           <mt-switch v-model="positionAvailable" style="margin-left:10px">
           </mt-switch>
         </mt-cell>
-         <div class="container" style="display:flex;justify-content:center;margin-top:70px;margin-bottom:20px">
+        <div class="container" style="display:flex;justify-content:center;margin-top:70px;margin-bottom:20px">
           <mt-button type="default" v-on:click.native="toSetting">Back</mt-button>
         </div>
       </div>
@@ -60,7 +61,8 @@ export default {
       msg: 'This is ' + this.$route.name,
       aboutPopupVisible: false,
       privacyPopupVisible: false,
-      positionAvailable: true
+      positionAvailable: true,
+      upLoadImage: false
     }
   },
   methods: {
@@ -75,6 +77,13 @@ export default {
     toSetting: function () {
       this.aboutPopupVisible = false
       this.privacyPopupVisible = false
+    },
+    upLoad: function () {
+      if (this.upLoadImage === true) {
+        this.upLoadImage = false
+      } else {
+        this.upLoadImage = true
+      }
     }
   }
 }
