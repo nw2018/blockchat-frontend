@@ -45,9 +45,10 @@ export default {
       const rooms = this.roomList.nearbyRooms
       const myLocation = this.geoLocation
       if (!rooms || !myLocation) {
-        console.log('sad')
+        console.log(rooms)
         return
       }
+      console.log(rooms)
       this.distance = []
       this.userNum = []
       for (var index = 0; index < rooms.length; index++) {
