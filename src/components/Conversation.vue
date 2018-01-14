@@ -3,8 +3,11 @@
     <div class="message-content" id="slider">
       <div v-for="(msg,index) in historyMessage" class="message-container" :key="index">
         <div>{{msg.name}}</div>
-        <div :style="{background: colorGen(msg.score),borderRightColor: colorGen(msg.score)}" class="speech-bubble message">
+        <div v-if="msg.isText" :style="{background: colorGen(msg.score),borderRightColor: colorGen(msg.score)}" class="speech-bubble message">
           {{msg.text}}
+        </div>
+        <div v-else>
+          <img style="max-width:200px;background:#2c3e50;border-right-color:#2c3e50;" class="speech-bubble message" :src="msg.image">
         </div>
         <div style="font-size:0.8em;color:#333;">{{msg.time|toTime}}</div>
       </div>
@@ -12,8 +15,11 @@
     <div class="input-bar">
       <div>
         <input @keyup.enter="sendMessage" id="input-text" v-model="messageContent" type="text">
-        <input id="file-upload" @change="onFileChange" accept="image/*" type="file">
         <mt-button @click="sendMessage" style="height:2em;margin-left:1em;" size="small" type="default">send</mt-button>
+        <label for="file-upload" class="custom-file-upload">
+          Photos
+        </label>
+        <input id="file-upload" @change="onFileChange" accept="image/*" type="file">
       </div>
     </div>
   </div>
@@ -80,6 +86,15 @@ export default {
       fileReader.onloadend = e => {
         const base64Data = e.target.result
         self.imageFile = base64Data
+        console.log('send_image')
+        this.$socket.emit('send_msg', {
+          image: base64Data,
+          id: this.id.slice(1),
+          isText: false,
+          needEmotion: false,
+          time: new Date().toString(),
+          name: this.userName
+        })
       }
       fileReader.readAsDataURL(files[0])
     },
@@ -89,17 +104,10 @@ export default {
     sendMessage: function () {
       const dateString = new Date().toString()
       const hashText = this.hash(dateString + this.messageContent)
-      if (this.imageFile) {
-        console.log('send_image')
-        this.$socket.emit('send_msg', {
-          image: this.imageFile,
-          id: this.id.slice(1),
-          needEmotion: false,
-          name: this.userName
-        })
-      } else if (this.messageContent === null || this.messageContent.length > 0) {
+      if (this.messageContent === null || this.messageContent.length > 0) {
         this.$socket.emit('send_msg', {
           text: this.messageContent,
+          isText: true,
           name: this.userName,
           time: new Date().toString(),
           id: this.id.slice(1),
@@ -144,6 +152,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 5px 9px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: rgb(95, 94, 94);
+}
 .container {
   width: 3em;
   height: 6em;
