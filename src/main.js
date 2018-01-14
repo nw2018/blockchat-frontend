@@ -9,7 +9,7 @@ import store from './store/index.js'
 import VueSocketio from 'vue-socket.io'
 
 Vue.config.productionTip = false
-Vue.use(VueSocketio, 'http://18.220.255.229:3000')
+Vue.use(VueSocketio, 'https://www.block-chat.com/')
 Vue.use(MintUI)
 /* eslint-disable no-new */
 new Vue({

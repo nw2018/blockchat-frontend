@@ -3,7 +3,7 @@
     <div class="message-content" id="slider">
       <div v-for="(msg,index) in historyMessage" class="message-container" :key="index">
         <div>{{msg.name}}</div>
-        <div class="speech-bubble message">
+        <div :style="{background: colorGen(msg.score),borderRightColor: colorGen(msg.score)}" class="speech-bubble message">
           {{msg.text}}
         </div>
         <div style="font-size:0.8em;color:#333;">{{msg.time|toTime}}</div>
@@ -12,6 +12,7 @@
     <div class="input-bar">
       <div>
         <input @keyup.enter="sendMessage" id="input-text" v-model="messageContent" type="text">
+        <input id="file-upload" @change="onFileChange" accept="image/*" type="file">
         <mt-button @click="sendMessage" style="height:2em;margin-left:1em;" size="small" type="default">send</mt-button>
       </div>
     </div>
@@ -27,7 +28,8 @@ export default {
     return {
       msg: 'This is ' + this.$route.name,
       messageContent: null,
-      historyMessage: []
+      historyMessage: [],
+      imageFile: null
     }
   },
   filters: {
@@ -50,7 +52,7 @@ export default {
       this.historyMessage = this.historyMessage.map(item => {
         self.emotion.forEach(e => {
           if (e.hash === item.hash) {
-            item.score = e.emotion.score
+            self.$set(item, 'score', e.emotion.score - 0.25)
             return item
           }
         })
@@ -71,13 +73,31 @@ export default {
       'addMessage',
       'addEmotion'
     ]),
+    onFileChange: function (e) {
+      const files = e.target.files || e.dataTransfer.files
+      const self = this
+      let fileReader = new FileReader()
+      fileReader.onloadend = e => {
+        const base64Data = e.target.result
+        self.imageFile = base64Data
+      }
+      fileReader.readAsDataURL(files[0])
+    },
     hash: function (s) {
       return s.split('').reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0)
     },
     sendMessage: function () {
       const dateString = new Date().toString()
       const hashText = this.hash(dateString + this.messageContent)
-      if (this.messageContent == null || this.messageContent.length > 0) {
+      if (this.imageFile) {
+        console.log('send_image')
+        this.$socket.emit('send_msg', {
+          image: this.imageFile,
+          id: this.id.slice(1),
+          needEmotion: false,
+          name: this.userName
+        })
+      } else if (this.messageContent === null || this.messageContent.length > 0) {
         this.$socket.emit('send_msg', {
           text: this.messageContent,
           name: this.userName,
@@ -89,6 +109,14 @@ export default {
         const inputBar = document.getElementById('input-text')
         inputBar.focus()
       }
+    },
+    colorGen: function (score) {
+      if (!score) return '#2c3e50'
+      const r = parseInt(200 * (1 - score))
+      const g = parseInt(200 * score)
+      const b = 40
+      const rgb = 'rgb(' + r + ',' + g + ',' + b + ')'
+      return rgb
     }
   },
   sockets: {
@@ -136,8 +164,9 @@ export default {
 .message {
   margin: 0.5em 0.5em 0.5em 1em;
   padding: 0.5em;
-  background-color: #2c3e50;
+  /* background-color: #2c3e50; */
   color: #ecf0f1;
+  transition: 2s all;
 }
 .input-bar {
   display: flex;
@@ -157,7 +186,7 @@ export default {
   word-wrap: break-word;
   max-width: 70%;
   position: relative;
-  background: #2c3e50;
+  /* background: #2c3e50; */
   border-radius: 0.4em;
 }
 
@@ -169,7 +198,7 @@ export default {
   width: 0;
   height: 0;
   border: 0.438em solid transparent;
-  border-right-color: #2c3e50;
+  border-right-color: inherit;
   border-left: 0;
   border-top: 0;
   margin-top: -0.219em;

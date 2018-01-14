@@ -1,7 +1,8 @@
 <template>
   <div>
     <mt-cell style="min-height: 5em;" title="Your Profile" v-on:click.native="upLoadImage = !upLoadImage">
-      <span>upload</span>
+      <span v-if="!upLoadImage">upload</span>
+      <span v-if="upLoadImage">hide</span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
     <transition name="fade">

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />  
     <mt-header title="BlockChat">
       <router-link to="/chat" slot="left">
         <mt-button v-show="inConversation" icon="back" @click.native="redirectTo('/chat')"></mt-button>
@@ -26,6 +27,7 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 import { Indicator } from 'mint-ui'
+import getName from './assets/randomName'
 export default {
   name: 'app',
   data() {
@@ -62,7 +64,7 @@ export default {
       text: 'Loading...',
       spinnerType: 'fading-circle'
     })
-    this.setUserName(Math.random().toString(36).substring(7))
+    this.setUserName(getName())
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const pos = {

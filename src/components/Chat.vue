@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="roomList.length===0">You don't have any chat now</div>
-    <mt-cell title="avaliable room" @click.native="redirectTo(0)" is-link>
+    <mt-cell title="Click to begin chatting" @click.native="redirectTo('/conversation:0')" is-link>
       <span>
         <mt-badge size="small">1</mt-badge>
       </span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
-    <mt-cell :label="'Distance:' + Math.floor(distance[index]) + 'm' + ' Users:' + userNum[index]" v-for="(item, index) in roomList.nearbyRooms" :key="index" title="Not avaliable room" is-link @click.native="redirectTo(index)">
+    <mt-cell style="background-color:rgb(239, 239, 239)" :label="'Distance:' + Math.floor(distance[index]) + 'm' + ' Users:' + userNum[index]" v-for="(item, index) in roomList.nearbyRooms" :key="index" title="Room out of reach" is-link @click.native="redirectTo('/location')">
       <span>
         <mt-badge size="small">{{index}}</mt-badge>
       </span>
@@ -38,7 +38,7 @@ export default {
       'addDistance'
     ]),
     redirectTo: function (index) {
-      this.$router.push('/conversation:' + index)
+      this.$router.push(index)
     },
     calDistance: function () {
       console.log('called')
