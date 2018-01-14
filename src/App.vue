@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <mt-header title="BlockChat"></mt-header>
+    <mt-header title="BlockChat">
+      <router-link to="/" slot="left">
+        <mt-button v-show="inConversation" icon="back" @click.native="redirectTo('/chat')"></mt-button>
+      </router-link>
+    </mt-header>
     <transition name="fade" mode="out-in">
       <router-view style="flex-grow:2;"></router-view>
     </transition>
@@ -26,6 +30,11 @@ export default {
   data() {
     return {
       selected: this.$route.name
+    }
+  },
+  computed: {
+    inConversation: function () {
+      return this.$route.name === 'conversation'
     }
   },
   methods: {

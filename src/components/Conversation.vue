@@ -11,7 +11,7 @@
     </div>
     <div class="input-bar">
       <div>
-        <input id="input-text" v-model="messageContent" type="text">
+        <input @keyup.enter="sendMessage" id="input-text" v-model="messageContent" type="text">
         <mt-button @click="sendMessage" style="height:2em;margin-left:1em;" size="small" type="default">send</mt-button>
       </div>
     </div>
