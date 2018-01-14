@@ -1,10 +1,12 @@
 <template>
   <div>
-    <mt-cell style="min-height: 5em;" title="Your Profile" v-on:click.native="upLoad">
+    <mt-cell style="min-height: 5em;" title="Your Profile" v-on:click.native="upLoadImage = !upLoadImage">
       <span>upload</span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
-    <input v-show="upLoadImage" label="" type="file" accept="image/*;capture=camera">
+    <transition name="fade">
+      <input v-if="upLoadImage" label="" type="file" accept="image/*;capture=camera">
+    </transition>
     <mt-cell title="Privacy" label="" v-on:click.native="toPrivacy" is-link></mt-cell>
     <mt-cell title="Histroy" label="Your chat histroy" is-link></mt-cell>
     <mt-cell title="Help & Feedback" to="https://github.com/nw2018/blockchat-frontend/issues" label="report issue in github" is-link></mt-cell>
@@ -67,8 +69,6 @@ export default {
   },
   methods: {
     toAbout: function () {
-      // this.$router.push('')
-      // console.log('here')
       this.aboutPopupVisible = true
     },
     toPrivacy: function () {
@@ -77,13 +77,6 @@ export default {
     toSetting: function () {
       this.aboutPopupVisible = false
       this.privacyPopupVisible = false
-    },
-    upLoad: function () {
-      if (this.upLoadImage === true) {
-        this.upLoadImage = false
-      } else {
-        this.upLoadImage = true
-      }
     }
   }
 }
@@ -91,8 +84,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style "scoped">
-.team-information {
-  margin-left: 20px;
-  margin-right: 500px;
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 10s;
 }
 </style>

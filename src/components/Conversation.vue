@@ -1,6 +1,6 @@
 <template>
   <div style="display:flex;flex-direction:column;height:100%;">
-    <div class="message-content">
+    <div class="message-content" id="slider">
       <div v-for="(msg,index) in historyMessage" class="message-container" :key="index">
         <div>{{msg.name}}</div>
         <div class="speech-bubble message">
@@ -55,11 +55,13 @@ export default {
       'addMessage'
     ]),
     sendMessage: function () {
-      this.$socket.emit('send_msg', {
-        text: this.messageContent,
-        name: this.userName,
-        time: new Date().toString()
-      })
+      if (this.messageContent == null || this.messageContent.length > 0) {
+        this.$socket.emit('send_msg', {
+          text: this.messageContent,
+          name: this.userName,
+          time: new Date().toString()
+        })
+      }
     }
   },
   sockets: {
@@ -72,6 +74,10 @@ export default {
       this.addMessage({ id: this.id.slice(1), message: msg })
       this.messageContent = ''
       this.historyMessage = this.getMessage(this.id.slice(1))
+      this.$nextTick(() => {
+        const slider = document.getElementById('slider')
+        slider.scrollTop = slider.scrollHeight
+      })
     }
   }
 }
@@ -79,14 +85,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container {
+  width: 3em;
+  height: 6em;
+  overflow: scroll;
+}
 .message-container {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #eeeeee;
   padding-left: 1em;
+  overflow: scroll;
 }
 .message-content {
   flex-grow: 5;
+  height: 100%;
+  overflow: auto;
 }
 .message {
   margin: 0.5em 0.5em 0.5em 1em;
