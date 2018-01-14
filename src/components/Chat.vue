@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-if="chatList.length===0">You don't have any chat now</div>
-    <mt-cell v-for="(item, index) in chatList" :key="index" title="Chat Name" is-link @click.native="redirectTo(index)">
-      <span>  
-        <mt-badge size="small">{{item}}</mt-badge>
+    <div v-if="roomList.length===0">You don't have any chat now</div>
+    <mt-cell v-for="(item, index) in roomList" :key="index" title="room" is-link @click.native="redirectTo(index)">
+      <span>
+        <mt-badge size="small">{{index}}</mt-badge>
       </span>
       <img slot="icon" src="../assets/logo.png" width="48" height="48">
     </mt-cell>
@@ -11,14 +11,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'chat',
   data() {
     return {
-      msg: 'This is ' + this.$route.name,
-      chatList: [1, 2, 3, 4, 5
-      ]
+      msg: 'This is ' + this.$route.name
     }
+  },
+  computed: {
+    ...mapGetters([
+      'roomList'
+    ])
   },
   methods: {
     redirectTo: function (index) {
