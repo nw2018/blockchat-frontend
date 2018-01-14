@@ -16,6 +16,7 @@ export default {
       msg: 'This is ' + this.$route.name,
       mapInstance: null,
       mapMarker: null,
+      rvMaps: null,
       citymap: {
         chicago: {
           center: { lat: 41.878, lng: -87.629 },
@@ -38,8 +39,28 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'geoLocation'
+      'geoLocation',
+      'roomList'
     ])
+  },
+  watch: {
+    roomList: function () {
+      if (!this.mapInstance) return
+      // Add the circle for this city to the map.
+      let self = this
+      this.roomList.map(item => {
+        return new self.rvMaps.Circle({
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#FF0000',
+          fillOpacity: 0.35,
+          map: self.mapInstance,
+          center: item.location,
+          radius: Math.sqrt(10) * 30
+        })
+      })
+    }
   },
   methods: {
     ...mapMutations([
@@ -60,6 +81,7 @@ export default {
     let self = this
     googleMap().then(rvMaps => {
       console.log(rvMaps)
+      self.rvMaps = rvMaps
       maps({
         element: document.getElementById('map'),
         center: { lat: -34.397, lng: 150.644 },
@@ -278,20 +300,6 @@ export default {
               position: pos
             })
           })
-        }
-        for (var city in self.citymap) {
-          // Add the circle for this city to the map.
-          var cityCircle = new rvMaps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35,
-            map: self.mapInstance,
-            center: self.citymap[city].center,
-            radius: Math.sqrt(self.citymap[city].population) * 100
-          })
-          console.log(cityCircle)
         }
       })
     })
